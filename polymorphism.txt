@@ -1,0 +1,263 @@
+import java.util.*;
+
+class publication {
+	//private data members
+	private  String title;
+	private int price;
+	private  int copies;
+	private int total;
+
+	
+	Scanner sc=new Scanner(System.in);//scanner class object
+		
+	public void settitle(String title) {			
+		//setter method for title
+		this.title=title;
+	}
+	
+
+	public void setcopies(int copies) {			
+		//setter method for copies
+		this.copies=copies;
+	}
+	
+	
+	public String gettitle() {			
+		//getter method for title
+		return title;
+	}
+	
+	public int getTotal() {	
+		//getter method for price
+		return total;
+	}
+	
+	public int getCopies() {			
+		//getter method for copies
+		return copies;
+	}
+	
+	public int getprice() {
+		return price;
+	}
+	
+
+	void read_publ() {				
+		//read or input method for common data members of magazine and book class
+				
+		System.out.print("enter title : ");
+		title=sc.next();
+		System.out.print("enter price:  ");
+		price=sc.nextInt();
+		System.out.print("enter copies: ");
+		copies=sc.nextInt();
+	}
+	
+	void display() {						
+		//display method for common data members of book and magazine class
+		
+		System.out.print(title+"\t"+price+"\t"+copies);
+	}
+	
+	
+	
+	void sale_copy(int number) {			
+		//common method to sale book or magazine and generate bill
+		if (number <= copies)		
+		//if customer needed copies are less than available
+		{
+			copies=copies-number;
+			total=total + number*price;
+			System.out.println("\tYOU PURCHASED  "+number +"  COPIES \n\tYOU HAVE TO PAY :  "+(price*number));
+		}
+		else			//if customer needs copies more than available in stock
+			System.out.println("     INSUFFICIENT STOCK!!!!!!!!!");
+	}
+
+}
+
+//======================= CLASS book =======================//
+class book extends publication {
+	
+	 private String author;		
+	 //data member of book class only
+
+	        
+	void order_copies(int number) {		//increase available copies of book by ordering 
+		int x=getCopies()+number;
+		setcopies(getCopies()+number);		
+		//as data members are private, we access them with the help of methods
+		System.out.println("\n\tORDER SUCESSFUL....");
+		System.out.println("\tCOPIES AVAILABLE : "+x);
+	}
+	
+	void read_book() {			
+		//method calling read method of publication class and also reading author
+		read_publ();
+		System.out.print("enter author book: ");
+		author=sc.next();
+	}
+	
+	void display_book(){
+		System.out.println("title \tprice \tcopy \tauthor");
+		display();//call to display defined in publication class
+		System.out.println("\t"+author);
+	}
+}
+
+
+//======================= CLASS magazine =======================//
+class magazine extends publication{			
+	//magazine class is inherited from publication
+	
+	private int order_qty;	//data members
+	private String issue_date;
+	
+	void receive_issue(String new_issue_date) {		
+		//method to issue new or upgraded magazine
+		System.out.println("ENTER NEW COPIES ORDERED: ");
+		order_qty=sc.nextInt();			
+	
+		setcopies(order_qty);		
+		//setting values to copies by setter method
+		
+		issue_date=new_issue_date;
+		System.out.println("\tTHE MAGAZINE "+gettitle()+" \n\t WITH ISSUE DATE "+issue_date+"AVAILABLE");
+	}
+	
+	void read_mag() {		//method to read or input magazine details
+		read_publ();		//call to read method defined in publication class
+		System.out.print("Enter THe Current Issue Date [dd/mm/yyyy]");
+		issue_date=sc.next();
+	}
+	
+	void display_mag() {		//display method to display 
+		System.out.println("title \tprice \tcopy \tdate");
+		display();
+		System.out.println("\t"+issue_date);
+	}
+}
+
+
+
+
+public class Main {
+
+    public static void main(String[] args) {        
+        Scanner sc = new Scanner(System.in);
+        book b = new book();
+        magazine m = new magazine();
+
+        int outerChoice;
+        do {
+            System.out.println("\nCHOOSE ONE OF THE FOLLOWING....");
+            System.out.println("1. BOOK");
+            System.out.println("2. MAGAZINE");
+            System.out.println("3. TOTAL SALE AMOUNT");
+            System.out.println("4. REVENUE OF PUBLICATION");
+            System.out.println("0. EXIT");
+            System.out.print("Choice: ");
+            outerChoice = sc.nextInt();
+
+            switch (outerChoice) {
+                case 1:
+                    // Book Menu
+                    int bookChoice;
+                    do {
+                        System.out.println("\n\tMENU FOR BOOK");
+                        System.out.println("\t1. Read Book");
+                        System.out.println("\t2. Display");
+                        System.out.println("\t3. Sale Copies");
+                        System.out.println("\t4. Order Copies");
+                        System.out.println("\t0. Back to Main Menu");
+                        System.out.print("\n\tChoice: ");
+                        bookChoice = sc.nextInt();
+
+                        switch (bookChoice) {
+                            case 1:
+                                b.read_book();
+                                break;
+                            case 2:
+                                b.display_book();
+                                break;
+                            case 3:
+                                System.out.print("Enter number of copies to sell: ");
+                                int n1 = sc.nextInt();
+                                b.sale_copy(n1);
+                                break;
+                            case 4:
+                                System.out.print("Enter number of copies to order: ");
+                                int n2 = sc.nextInt();
+                                b.order_copies(n2);
+                                break;
+                            case 0:
+                                System.out.println("Returning to Main Menu...");
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Try again.");
+                        }
+                    } while (bookChoice != 0);
+                    break;
+
+                case 2:
+                    // Magazine Menu
+                    int magChoice;
+                    do {
+                        System.out.println("\n\tMENU FOR MAGAZINE");
+                        System.out.println("\t1. Read Magazine");
+                        System.out.println("\t2. Display");
+                        System.out.println("\t3. Sale Copies");
+                        System.out.println("\t4. Receive New Issue");
+                        System.out.println("\t0. Back to Main Menu");
+                        System.out.print("\n\tChoice: ");
+                        magChoice = sc.nextInt();
+
+                        switch (magChoice) {
+                            case 1:
+                                m.read_mag();
+                                break;
+                            case 2:
+                                m.display_mag();
+                                break;
+                            case 3:
+                                System.out.print("Enter number of copies to sell: ");
+                                int n3 = sc.nextInt();
+                                m.sale_copy(n3);
+                                break;
+                            case 4:
+                                System.out.print("Enter new issue date (dd/mm/yyyy): ");
+                                String date = sc.next();
+                                m.receive_issue(date);
+                                break;
+                            case 0:
+                                System.out.println("Returning to Main Menu...");
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Try again.");
+                        }
+                    } while (magChoice != 0);
+                    break;
+
+                case 3:
+                    // Total Sale Amount
+                    System.out.println("\nTOTAL SALE AMOUNT (to be paid by customer): " + (b.getTotal() + m.getTotal()));
+                    break;
+
+                case 4:
+                    // Total Revenue
+                    System.out.println("\nTOTAL REVENUE OF PUBLICATION: " + 
+                        (b.getCopies() * b.getprice() + m.getCopies() * m.getprice()));
+                    break;
+
+                case 0:
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (outerChoice != 0);
+
+        sc.close();
+    }
+}

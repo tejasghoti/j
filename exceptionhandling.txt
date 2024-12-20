@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+class ExceptionHandling {
+
+    // Method to add consecutive elements of an array and handle
+    // ArrayIndexOutOfBoundsException
+    public void arrayOperation() {
+        int sum = 0;
+        try {
+            int[] a = {1, 2, 3, 4, 5};
+            for (int i = 0; i < a.length - 1; i++) {  // Changed to avoid ArrayIndexOutOfBoundsException
+                sum = a[i] + a[i + 1];
+                System.out.println("Sum of " + a[i] + " and " + a[i + 1] + " is: " + sum);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Warning: ArrayIndexOutOfBoundsException occurred. You've reached the end of the array.");
+        } catch (Exception e) {
+            System.out.println("An unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    // Method to handle division and catch ArithmeticException and
+    // NumberFormatException
+    public void divisionOperation() {
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.print("Enter first number: ");
+            int num1 = sc.nextInt();
+            System.out.print("Enter second number: ");
+            int num2 = sc.nextInt();
+
+            // Checking for division by zero
+            if (num2 == 0) {
+                throw new ArithmeticException("Error: Division by zero is not allowed.");
+            }
+
+            int result = num1 / num2;
+            System.out.println("Result of division: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Please enter valid integer numbers.");
+        } catch (Exception e) {
+            System.out.println("An unexpected exception occurred: " + e.getMessage());
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Creating an instance of ExceptionHandling
+        ExceptionHandling exc = new ExceptionHandling();
+
+        // Calling the array operation method
+        exc.arrayOperation();
+
+        // Calling the division operation method
+        exc.divisionOperation();
+    }
+}

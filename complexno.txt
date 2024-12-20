@@ -1,0 +1,105 @@
+import java.util.Scanner;
+
+class Complex_No {
+    float real, img;
+
+    public Complex_No() {
+        real = 0;
+        img = 0;
+    }
+
+    public Complex_No(float a, float b) {
+        real = a;
+        img = b;
+    }
+}
+
+class ComplexOperations {
+    static void display(Complex_No C1, Complex_No C2) {
+        System.out.println("First Complex Number = (" + C1.real + ") + (" + C1.img + ")i");
+        System.out.println("Second Complex Number = (" + C2.real + ") + (" + C2.img + ")i");
+    }
+
+    static void add(Complex_No C1, Complex_No C2) {
+        float real = C1.real + C2.real;
+        float img = C1.img + C2.img;
+        System.out.println("Addition = (" + real + ") + (" + img + ")i");
+    }
+
+    static void subtract(Complex_No C1, Complex_No C2) {
+        float real = C1.real - C2.real;
+        float img = C1.img - C2.img;
+        System.out.println("Subtraction = (" + real + ") + (" + img + ")i");
+    }
+
+    static void multiply(Complex_No C1, Complex_No C2) {
+        float real = C1.real * C2.real - C1.img * C2.img;
+        float img = C1.real * C2.img + C1.img * C2.real;
+        System.out.println("Multiplication = (" + real + ") + (" + img + ")i");
+    }
+
+    static void divide(Complex_No C1, Complex_No C2) {
+        float denominator = C2.real * C2.real + C2.img * C2.img;
+        float real = (C1.real * C2.real + C1.img * C2.img) / denominator;
+        float img = (C1.img * C2.real - C1.real * C2.img) / denominator;
+        System.out.println("Division = (" + real + ") + (" + img + ")i");
+    }
+
+    static void displayMenu() {
+        System.out.println("\n===== Menu =====");
+        System.out.println("1. Display Complex Numbers");
+        System.out.println("2. Add Complex Numbers");
+        System.out.println("3. Subtract Complex Numbers");
+        System.out.println("4. Multiply Complex Numbers");
+        System.out.println("5. Divide Complex Numbers");
+        System.out.println("6. Exit");
+        System.out.print("Enter your choice: ");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter real part of First Number: ");
+        float num1 = sc.nextFloat();
+        System.out.print("Enter imaginary part of First Number: ");
+        float num2 = sc.nextFloat();
+        Complex_No C1 = new Complex_No(num1, num2);
+
+        System.out.print("Enter real part of Second Number: ");
+        num1 = sc.nextFloat();
+        System.out.print("Enter imaginary part of Second Number: ");
+        num2 = sc.nextFloat();
+        Complex_No C2 = new Complex_No(num1, num2);
+
+        int choice;
+        do {
+            ComplexOperations.displayMenu();
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    ComplexOperations.display(C1, C2);
+                    break;
+                case 2:
+                    ComplexOperations.add(C1, C2);
+                    break;
+                case 3:
+                    ComplexOperations.subtract(C1, C2);
+                    break;
+                case 4:
+                    ComplexOperations.multiply(C1, C2);
+                    break;
+                case 5:
+                    ComplexOperations.divide(C1, C2);
+                    break;
+                case 6:
+                    System.out.println("Exiting program. Thank you!");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        } while (choice != 6);
+
+        sc.close();
+    }
+}

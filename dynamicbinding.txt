@@ -1,0 +1,107 @@
+import java.util.Scanner;
+
+abstract class Shape {
+    private double dimension1;
+    private double dimension2;
+
+    // Setters and Getters
+    public void setDimension1(double dimension1) {
+        this.dimension1 = dimension1;
+    }
+
+    public double getDimension1() {
+        return this.dimension1;
+    }
+
+    public void setDimension2(double dimension2) {
+        this.dimension2 = dimension2;
+    }
+
+    public double getDimension2() {
+        return this.dimension2;
+    }
+
+    // Method to input dimensions
+    public void inputDimensions() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter dimension 1: ");
+        dimension1 = scanner.nextDouble();
+        System.out.print("Enter dimension 2: ");
+        dimension2 = scanner.nextDouble();
+
+        // To check if the dimensions inputted are positive
+        while (dimension1 <= 0 || dimension2 <= 0) {
+            System.out.println("Invalid input. Please enter positive values.");
+            System.out.print("Enter dimension 1: ");
+            dimension1 = scanner.nextDouble();
+            System.out.print("Enter dimension 2: ");
+            dimension2 = scanner.nextDouble();
+        }
+    }
+
+    // Abstract method to compute area
+    public abstract double computeArea();
+}
+
+class Triangle extends Shape {
+
+    @Override
+    public double computeArea() {
+        // Area of a triangle: 0.5 * base * height
+        return 0.5 * getDimension1() * getDimension2();
+    }
+
+    @Override
+    public String toString() {
+        return "Triangle with base " + getDimension1() + " and height " + getDimension2() + " has area: " + computeArea();
+    }
+}
+
+class Rectangle extends Shape {
+
+    @Override
+    public double computeArea() {
+        // Area of a rectangle: width * height
+        return getDimension1() * getDimension2();
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle with width " + getDimension1() + " and height " + getDimension2() + " has area: " + computeArea();
+    }
+}
+
+public class ShapeTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Shape shape = null;
+
+        int choice, ch1;
+
+        do {
+            System.out.println("Choose the shape (1 for Triangle, 2 for Rectangle): ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    shape = new Triangle();
+                    shape.inputDimensions();
+                    break;
+                case 2:
+                    shape = new Rectangle();
+                    shape.inputDimensions();
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+                    continue;
+            }
+
+            System.out.println(shape);
+
+            System.out.println("Do you want to continue? 1 for Yes, 0 for No");
+            ch1 = scanner.nextInt();
+        } while (ch1 == 1);
+
+        scanner.close();
+    }
+}
